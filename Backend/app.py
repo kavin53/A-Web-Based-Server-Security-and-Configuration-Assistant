@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from scanners.remote.port_scan import scan_ports
 
 app = Flask(__name__)
 CORS(app)
