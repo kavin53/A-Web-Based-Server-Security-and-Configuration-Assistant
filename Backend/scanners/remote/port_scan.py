@@ -15,26 +15,25 @@ COMMON_PORTS = {
     8080:"HTTP-ALT"
 }
 
-def scan_ports(target, timeout=1):
+def scan_ports(target):
     results = []
 
     for port , service in COMMON_PORTS.items():
         try:
-            sock =socket.socket(socket.AF_INT, socket.SOCK_STREAM)
-            sock.settimeout(timeout)
-            results = sock.connect_ex((target,port))
-            sock.close()
+            sock =socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.settimeout(1)
+            
 
-            if results == 0:
-                risk ="high" if port in[21,23,3306] else "meadium"
+            if sock.connec_ex((target,port))==0:
                 results.append({
                     "port":port,
                     "service":service,
                     "status":"open",
-                    "risk":risk,
+                    "risk":"meadium" if port not in [80,443] else "low",
                     "recommendation":f"Restrict access to {service} if not required"
                 })
+                sock.close()
 
-        except Exception:
+        except Exception as e:
             continue
     return results
