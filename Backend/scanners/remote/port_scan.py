@@ -22,10 +22,10 @@ def scan_ports(target, timeout=1):
         try:
             sock =socket.socket(socket.AF_INT, socket.SOCK_STREAM)
             sock.settimeout(timeout)
-            result = sock.connect_ex((target,port))
+            results = sock.connect_ex((target,port))
             sock.close()
 
-            if result == 0:
+            if results == 0:
                 risk ="high" if port in[21,23,3306] else "meadium"
                 results.append({
                     "port":port,
@@ -37,4 +37,4 @@ def scan_ports(target, timeout=1):
 
         except Exception:
             continue
-    return result
+    return results
