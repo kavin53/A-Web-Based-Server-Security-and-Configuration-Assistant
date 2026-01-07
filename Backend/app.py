@@ -3,6 +3,8 @@ from flask_cors import CORS
 from scanners.remote.port_scan import scan_ports
 from scanners.remote.headers_scan import scan_headers
 from scanners.remote.ssl_scan import scan_ssl
+from scanners.remote.dir_scan import scan_directories
+
 
 
 app = Flask(__name__)
