@@ -1,15 +1,11 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+
 from scanners.remote.port_scan import scan_ports
 from scanners.remote.headers_scan import scan_headers
 
-
 app = Flask(__name__)
 CORS(app)
-
-@app.route("/health", methods=["GET"])
-def health():
-    return jsonify({"status": "running"}), 200
 
 @app.route("/run-scan", methods=["POST"])
 def run_scan():
