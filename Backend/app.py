@@ -21,10 +21,13 @@ def run_scan():
         results = scan_ports(target)
 
     elif scan_type == "headers":
-        results = scan_headers(target)
+     results = scan_headers(target)
 
+    elif scan_type == "ssl":
+        results = scan_ssl(target)  
     else:
-        return jsonify({"error": "Invalid scan type"}), 400
+     return jsonify({"error": "Invalid scan type"}), 400
+
 
     return jsonify({
         "target": target,
