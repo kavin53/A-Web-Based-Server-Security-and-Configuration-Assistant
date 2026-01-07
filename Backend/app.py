@@ -4,6 +4,8 @@ from scanners.remote.port_scan import scan_ports
 from scanners.remote.headers_scan import scan_headers
 from scanners.remote.ssl_scan import scan_ssl
 from scanners.remote.dir_scan import scan_directories
+from scanners.analyzer.risk_analyzer import analyze_risk
+
 
 
 
@@ -34,10 +36,13 @@ def run_scan():
     else:
         return jsonify({"error": "Invalid scan type"}), 400
 
+    risk_summary = analyze_risk(results)
+
     return jsonify({
         "target": target,
         "scan_type": scan_type,
-        "results": results
+        "results": results,
+        "summary": risk_summary
     }), 200
 
 if __name__ == "__main__":
