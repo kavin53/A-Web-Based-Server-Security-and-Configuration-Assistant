@@ -1,32 +1,38 @@
-def analyze_risk(results):
-    score = 0
-    issues = 0
+def calculate_risk(results):
+    risk_weights = {
+        "low": 10,
+        "medium": 25,
+        "high": 50,
+        "critical": 100
+    }
+
+    total_risk = 0
+    breakdown = {
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "critical": 0
+    }
 
     for item in results:
         risk = item.get("risk")
+        if risk in risk_weights:
+            total_risk += risk_weights[risk]
+            breakdown[risk] += 1
 
-        if risk == "high":
-            score += 30
-            issues += 1
-        elif risk == "medium":
-            score += 15
-            issues += 1
-        elif risk == "low":
-            score += 5
+    score = max(0, 100 - total_risk)
 
-    if score >= 60:
-        level = "HIGH"
-        recommendation = "Immediate security hardening required"
-    elif score >= 30:
-        level = "MEDIUM"
-        recommendation = "Security improvements recommended"
+    # OPTIONAL but GOOD for project
+    if score >= 80:
+        grade = "Secure"
+    elif score >= 50:
+        grade = "Moderate Risk"
     else:
-        level = "LOW"
-        recommendation = "No critical security risks detected"
+        grade = "High Risk"
 
     return {
-        "risk_score": score,
-        "overall_risk": level,
-        "issues_found": issues,
-        "final_recommendation": recommendation
+        "security_score": score,
+        "grade": grade,
+        "risk_breakdown": breakdown,
+        "total_findings": len(results)
     }
