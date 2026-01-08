@@ -1,14 +1,21 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from flask import Flask, request, jsonify, render_template
+
 
 from scanners.remote.port_scan import scan_ports
 from scanners.remote.ssl_scan import scan_ssl
 from scanners.web.headers_scan import scan_headers
 from scanners.web.dir_scan import scan_directories
-from scanners.analyzer.risk_analyzer import calculate_risk
+from analyzer.risk_analyzer import calculate_risk
 
 app = Flask(__name__)
 CORS(app)
+
+@app.route("/")
+def home():
+    return render_template("index.html")
+
 
 @app.route("/run-scan", methods=["POST"])
 def run_scan():
