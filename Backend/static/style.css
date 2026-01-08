@@ -1,0 +1,79 @@
+* {
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+}
+
+body {
+    background: #0f172a;
+    color: #e5e7eb;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #38bdf8;
+}
+
+.subtitle {
+    text-align: center;
+    color: #94a3b8;
+    margin-bottom: 30px;
+}
+
+.card {
+    background: #020617;
+    border: 1px solid #1e293b;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    background: #020617;
+    color: #e5e7eb;
+    border: 1px solid #334155;
+    border-radius: 6px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: #38bdf8;
+    color: #020617;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0ea5e9;
+}
+
+.finding {
+    border-left: 5px solid;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: #020617;
+    border-radius: 6px;
+}
+
+.finding.low { border-color: #22c55e; }
+.finding.medium { border-color: #facc15; }
+.finding.high { border-color: #fb7185; }
+.finding.critical { border-color: #ef4444; }
+
+.risk {
+    font-size: 12px;
+    opacity: 0.8;
+}
