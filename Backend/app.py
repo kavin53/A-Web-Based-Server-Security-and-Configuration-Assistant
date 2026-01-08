@@ -26,7 +26,7 @@ def run_scan():
 
         all_results.extend(port_scan_results)
         all_results.extend(ssl_scan_results)
-        all_results.extend(header_scan_results)
+        all_results.extend(header_scan_results)            
 
         risk_summary = calculate_risk(all_results)
 
