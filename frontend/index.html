@@ -1,57 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Server Security Assistant</title>
-  <style>
-    body { font-family: Arial, sans-serif; background:#0f172a; color:#e5e7eb; }
-    .container { max-width:800px; margin:40px auto; padding:20px; background:#020617; border-radius:10px; }
-    h1 { text-align:center; }
-    input, select, button { padding:10px; margin:5px 0; width:100%; border-radius:6px; border:none; }
-    button { background:#2563eb; color:white; cursor:pointer; }
-    pre { background:#020617; padding:15px; border-radius:8px; overflow:auto; }
-    .low { color:#22c55e; }
-    .medium { color:#facc15; }
-    .high { color:#ef4444; }
-  </style>
+    <meta charset="UTF-8">
+    <title>Server Security Assistant</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Web-Based Server Security Assistant</h1>
 
-    <label>Scan Type</label>
-    <select id="scanType">
-      <option value="remote">Port Scan</option>
-      <option value="headers">Security Headers</option>
-      <option value="dir">Directory Scan</option>
-      <option value="ssl">SSL Configuration</option>
-    </select>
+<h1>Server Security Scanner</h1>
 
-    <label>Target</label>
-    <input id="target" placeholder="example.com or 127.0.0.1" />
+<input id="target" placeholder="Target (example.com or 127.0.0.1)">
+<select id="scanType">
+  <option value="port">Port Scan</option>
+  <option value="ssl">SSL Scan</option>
+  <option value="headers">Headers Scan</option>
+  <option value="dir">Directory Scan</option>
+</select>
 
-    <button onclick="runScan()">Run Scan</button>
+<button onclick="runScan()">Run Scan</button>
 
-    <h3>Results</h3>
-    <pre id="output">Waiting for scan...</pre>
-  </div>
+<pre id="output"></pre>
 
-  <script>
-    async function runScan() {
-      const type = document.getElementById('scanType').value;
-      const target = document.getElementById('target').value;
-
-      document.getElementById('output').textContent = 'Scanning...';
-
-      const response = await fetch('http://127.0.0.1:5000/run-scan', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type, target })
-      });
-
-      const data = await response.json();
-      document.getElementById('output').textContent = JSON.stringify(data, null, 2);
-    }
-  </script>
+<script src="app.js"></script>
 </body>
 </html>
