@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Server Security Assistant</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>🛡 Server Security Assistant</h1>
+    <p class="subtitle">Web-Based Server Security & Configuration Analyzer</p>
+
+    <div class="card">
+        <input type="text" id="target" placeholder="Target (example.com or IP)">
+        
+        <select id="scanType">
+            <option value="port">🔌 Port Scan</option>
+            <option value="ssl">🔐 SSL Scan</option>
+            <option value="headers">📄 Headers Scan</option>
+            <option value="dir">📁 Directory Scan</option>
+        </select>
+
+        <button id ="runScanBtn">Run Scan</button>
+    </div>
+
+    <div class="card result">
+        <h2>Scan Result</h2>
+        <pre id="output">Waiting for scan...</pre>
+    </div>
+
+    <div class="card score">
+        <h2>Security Score</h2>
+        <div id="score">—</div>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
