@@ -31,34 +31,40 @@ document.getElementById("runScanBtn").addEventListener("click", () => {
 
 
 function renderResults(data) {
-    const output = document.getElementById("output");
+    const container = document.getElementById("resultsContainer");
     const scoreBox = document.getElementById("score");
 
+    container.innerHTML = "";
+
     if (data.error) {
-        output.textContent = "❌ Error: " + data.error;
+        container.innerHTML = `<p class="placeholder">❌ ${data.error}</p>`;
         scoreBox.textContent = "—";
         return;
     }
 
-    
     if (!data.results || data.results.length === 0) {
-        output.textContent = "✅ No issues found.";
-    } else {
-        let text = "";
-
-        data.results.forEach((item, i) => {
-            text += `#${i + 1}\n`;
-            for (const key in item) {
-                text += `${key}: ${item[key]}\n`;
-            }
-            text += "\n-----------------\n\n";
-        });
-
-        output.textContent = text;
-    }
-
-    if (data.risk) {
+        container.innerHTML = `<p class="placeholder">✅ No issues found</p>`;
         scoreBox.textContent = data.risk.security_score + " / 100";
+        return;
     }
+
+    data.results.forEach(item => {
+        const box = document.createElement("div");
+        box.className = `result-box risk-${item.risk}`;
+
+        box.innerHTML = `
+            <h3>${item.service || item.check || "Finding"}</h3>
+            ${item.port ? `<p><b>Port:</b> ${item.port}</p>` : ""}
+            <p><b>Status:</b> ${item.status}</p>
+            <p><b>Risk:</b> ${item.risk.toUpperCase()}</p>
+            <p><b>Recommendation:</b> ${item.recommendation}</p>
+            <span class="tag ${item.status}">${item.status}</span>
+        `;
+
+        container.appendChild(box);
+    });
+
+    scoreBox.textContent = data.risk.security_score + " / 100";
 }
+
    
