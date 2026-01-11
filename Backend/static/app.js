@@ -40,7 +40,7 @@ function renderResults(data) {
         return;
     }
 
-    /* --------- RESULTS --------- */
+    
     if (!data.results || data.results.length === 0) {
         output.textContent = "✅ No issues found.";
     } else {
@@ -56,7 +56,7 @@ function renderResults(data) {
 
         output.textContent = text;
     }
-    
+
     if (data.risk) {
         scoreBox.textContent = data.risk.security_score + " / 100";
     }
