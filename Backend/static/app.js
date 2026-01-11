@@ -56,5 +56,9 @@ function renderResults(data) {
 
         output.textContent = text;
     }
-
+    
+    if (data.risk) {
+        scoreBox.textContent = data.risk.security_score + " / 100";
+    }
+}
    
