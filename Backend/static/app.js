@@ -1,26 +1,30 @@
-document.getElementById("runScanBtn").addEventListener("click", () => {
-    const target = document.getElementById("target").value.trim();
-    const scanType = document.getElementById("scanType").value;
+document.addEventListener("DOMContentLoaded", () => {
 
-    if (!target) {
-        alert("Enter a target");
-        return;
-    }
+    document.getElementById("runScanBtn").addEventListener("click", () => {
+        const target = document.getElementById("target").value.trim();
+        const scanType = document.getElementById("scanType").value;
 
-    fetch("/run-scan", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            type: scanType,
-            target: target
+        if (!target) {
+            alert("Enter a target");
+            return;
+        }
+
+        fetch("/run-scan", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                type: scanType,
+                target: target
+            })
         })
-    })
-    .then(res => res.json())
-    .then(data => renderResults(data))
-    .catch(err => {
-        console.error(err);
-        alert("Scan failed");
+        .then(res => res.json())
+        .then(data => renderResults(data))
+        .catch(err => {
+            console.error(err);
+            alert("Scan failed");
+        });
     });
+
 });
