@@ -1,15 +1,19 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.getElementById("runScanBtn").addEventListener("click", async () => {
+    const target = document.getElementById("target").value.trim();
+    const scanType = document.getElementById("scanType").value;
+    const output = document.getElementById("output");
+    const score = document.getElementById("score");
 
-    document.getElementById("runScanBtn").addEventListener("click", () => {
-        const target = document.getElementById("target").value.trim();
-        const scanType = document.getElementById("scanType").value;
+    output.textContent = "⏳ Scanning...";
+    score.textContent = "—";
 
-        if (!target) {
-            alert("Enter a target");
-            return;
-        }
+    if (!target) {
+        output.textContent = "❌ Error: Target is required";
+        return;
+    }
 
-        fetch("/run-scan", {
+    try {
+        const response = await fetch("/run-scan", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -18,13 +22,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 type: scanType,
                 target: target
             })
-        })
-        .then(res => res.json())
-        .then(data => renderResults(data))
-        .catch(err => {
-            console.error(err);
-            alert("Scan failed");
         });
-    });
 
+        const data = await response.json();
+
+        if (!response.ok) {
+            // Backend error message
+            throw new Error(data.error || "Scan failed");
+        }
+
+        renderResults(data);
+
+    } catch (err) {
+        console.error(err);
+        output.textContent = `❌ Scan Failed: ${err.message}`;
+    }
 });
