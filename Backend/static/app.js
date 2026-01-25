@@ -1,34 +1,35 @@
-document.getElementById("runScanBtn").addEventListener("click", () => {
-    const target = document.getElementById("target").value.trim();
-    const scanType = document.getElementById("scanType").value;
+document.addEventListener("DOMContentLoaded", () => {
 
-    if (!target) {
-        alert("Enter a target");
-        return;
-    }
+    const runBtn = document.getElementById("runScanBtn");
+    const resultsContainer = document.getElementById("resultsContainer");
+    const scoreBox = document.getElementById("score");
 
-    document.getElementById("output").textContent = "⏳ Scanning...";
-    document.getElementById("score").textContent = "—";
+    runBtn.addEventListener("click", () => {
+        const target = document.getElementById("target").value.trim();
+        const scanType = document.getElementById("scanType").value;
 
-    fetch("/run-scan", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            type: scanType,
-            target: target
+        if (!target) {
+            alert("Enter a target");
+            return;
+        }
+
+        resultsContainer.innerHTML = `<p class="placeholder">⏳ Scanning...</p>`;
+        scoreBox.textContent = "—";
+
+        fetch("/run-scan", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ type: scanType, target })
         })
-    })
-    .then(res => res.json())
-    .then(data => renderResults(data))
-    .catch(err => {
-        console.error(err);
-        document.getElementById("output").textContent =
-            "❌ Scan Failed: " + err.message;
+        .then(res => res.json())
+        .then(data => renderResults(data))
+        .catch(err => {
+            console.error(err);
+            resultsContainer.innerHTML =
+                `<p class="placeholder">❌ Scan Failed</p>`;
+        });
     });
 });
-
 
 function renderResults(data) {
     const container = document.getElementById("resultsContainer");
@@ -38,7 +39,6 @@ function renderResults(data) {
 
     if (data.error) {
         container.innerHTML = `<p class="placeholder">❌ ${data.error}</p>`;
-        scoreBox.textContent = "—";
         return;
     }
 
@@ -48,17 +48,16 @@ function renderResults(data) {
         return;
     }
 
-    data.results.forEach(item => {
+    data.results.forEach((item, i) => {
         const box = document.createElement("div");
         box.className = `result-box risk-${item.risk}`;
 
         box.innerHTML = `
-            <h3>${item.service || item.check || "Finding"}</h3>
+            <h3>#${i + 1} ${item.service || "Finding"}</h3>
             ${item.port ? `<p><b>Port:</b> ${item.port}</p>` : ""}
             <p><b>Status:</b> ${item.status}</p>
             <p><b>Risk:</b> ${item.risk.toUpperCase()}</p>
             <p><b>Recommendation:</b> ${item.recommendation}</p>
-            <span class="tag ${item.status}">${item.status}</span>
         `;
 
         container.appendChild(box);
@@ -66,5 +65,3 @@ function renderResults(data) {
 
     scoreBox.textContent = data.risk.security_score + " / 100";
 }
-
-   
