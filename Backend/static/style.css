@@ -7,15 +7,33 @@ body {
     background: #0f172a;
     color: #e5e7eb;
     margin: 0;
-    padding: 0;
+    height: 100vh;
+    overflow: hidden; /* prevent full-page scroll */
 }
 
-.container {
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 20px;
+/* === SPLIT DASHBOARD === */
+.dashboard {
+    display: flex;
+    height: 100vh;
 }
 
+/* LEFT PANEL */
+.left-panel {
+    width: 65%;
+    padding: 30px;
+    overflow-y: auto;
+}
+
+/* RIGHT PANEL */
+.right-panel {
+    width: 35%;
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* HEADERS */
 h1 {
     text-align: center;
     color: #38bdf8;
@@ -27,6 +45,7 @@ h1 {
     margin-bottom: 30px;
 }
 
+/* CARDS */
 .card {
     background: #020617;
     border: 1px solid #1e293b;
@@ -35,6 +54,7 @@ h1 {
     margin-bottom: 20px;
 }
 
+/* INPUTS */
 input, select {
     width: 100%;
     padding: 12px;
@@ -45,6 +65,7 @@ input, select {
     border-radius: 6px;
 }
 
+/* BUTTON */
 button {
     width: 100%;
     padding: 12px;
@@ -60,24 +81,7 @@ button:hover {
     background: #0ea5e9;
 }
 
-.finding {
-    border-left: 5px solid;
-    padding: 10px;
-    margin-bottom: 10px;
-    background: #020617;
-    border-radius: 6px;
-}
-
-.finding.low { border-color: #22c55e; }
-.finding.medium { border-color: #facc15; }
-.finding.high { border-color: #fb7185; }
-.finding.critical { border-color: #ef4444; }
-
-.risk {
-    font-size: 12px;
-    opacity: 0.8;
-}
-
+/* RESULTS */
 .results-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -104,35 +108,21 @@ button:hover {
     font-size: 14px;
 }
 
-/* Risk colors */
-.risk-low {
-    border-left-color: #22c55e;
+/* SCORE PANEL */
+.score {
+    width: 100%;
+    text-align: center;
 }
 
-.risk-medium {
-    border-left-color: #f59e0b;
+/* DONUT SIZE CONTROL */
+.chart-wrapper {
+    width: 260px;
+    height: 260px;
+    margin: 20px auto 0;
 }
 
-.risk-high {
-    border-left-color: #ef4444;
-}
-
-.tag {
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: 6px;
-    font-size: 12px;
-    margin-top: 6px;
-}
-
-.tag.open {
-    background: #22c55e;
-}
-
-.tag.closed {
-    background: #6b7280;
-}
-
+/* PLACEHOLDER */
 .placeholder {
     opacity: 0.6;
 }
+
