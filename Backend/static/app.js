@@ -1,3 +1,5 @@
+let riskChart = null;
+
 document.addEventListener("DOMContentLoaded", () => {
 
     const runBtn = document.getElementById("runScanBtn");
@@ -44,24 +46,55 @@ function renderResults(data) {
 
     if (!data.results || data.results.length === 0) {
         container.innerHTML = `<p class="placeholder">✅ No issues found</p>`;
-        scoreBox.textContent = data.risk.security_score + " / 100";
-        return;
+    } else {
+        data.results.forEach((item, i) => {
+            const box = document.createElement("div");
+            box.className = `result-box risk-${item.risk}`;
+
+            box.innerHTML = `
+                <h3>#${i + 1} ${item.service || item.check || "Finding"}</h3>
+                ${item.port ? `<p><b>Port:</b> ${item.port}</p>` : ""}
+                <p><b>Status:</b> ${item.status}</p>
+                <p><b>Risk:</b> ${item.risk.toUpperCase()}</p>
+                <p><b>Recommendation:</b> ${item.recommendation}</p>
+            `;
+
+            container.appendChild(box);
+        });
     }
 
-    data.results.forEach((item, i) => {
-        const box = document.createElement("div");
-        box.className = `result-box risk-${item.risk}`;
+    // ✅ Score
+    scoreBox.textContent =
+        `${data.risk.security_score} / 100 (${data.risk.grade})`;
 
-        box.innerHTML = `
-            <h3>#${i + 1} ${item.service || "Finding"}</h3>
-            ${item.port ? `<p><b>Port:</b> ${item.port}</p>` : ""}
-            <p><b>Status:</b> ${item.status}</p>
-            <p><b>Risk:</b> ${item.risk.toUpperCase()}</p>
-            <p><b>Recommendation:</b> ${item.recommendation}</p>
-        `;
+    // ✅ Donut chart
+    renderRiskChart(data.risk.risk_breakdown);
+}
 
-        container.appendChild(box);
+function renderRiskChart(breakdown) {
+    const ctx = document.getElementById("riskChart");
+
+    if (riskChart) {
+        riskChart.destroy();
+    }
+
+    riskChart = new Chart(ctx, {
+        type: "doughnut",
+        data: {
+            labels: ["Low", "Medium", "High", "Critical"],
+            datasets: [{
+                data: [
+                    breakdown.low,
+                    breakdown.medium,
+                    breakdown.high,
+                    breakdown.critical
+                ]
+            }]
+        },
+        options: {
+            plugins: {
+                legend: { position: "bottom" }
+            }
+        }
     });
-
-    scoreBox.textContent = data.risk.security_score + " / 100";
 }
