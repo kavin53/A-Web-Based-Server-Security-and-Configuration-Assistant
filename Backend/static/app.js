@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
         resultsContainer.innerHTML = `<p class="placeholder">⏳ Scanning...</p>`;
         scoreBox.textContent = "—";
 
+        startProgress();
         fetch("/run-scan", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -25,6 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .then(res => res.json())
         .then(data => renderResults(data))
+        .finally(() => finishProgress())
         .catch(err => {
             console.error(err);
             resultsContainer.innerHTML =
@@ -98,3 +100,34 @@ function renderRiskChart(breakdown) {
         }
     });
 }
+
+const progressCard = document.getElementById("scanProgress");
+const progressFill = document.getElementById("progressFill");
+const progressText = document.getElementById("progressText");
+
+function startProgress() {
+    progressCard.classList.remove("hidden");
+    progressFill.style.width = "10%";
+    progressText.textContent = "Initializing scan…";
+
+    setTimeout(() => {
+        progressFill.style.width = "40%";
+        progressText.textContent = "Scanning target…";
+    }, 800);
+
+    setTimeout(() => {
+        progressFill.style.width = "70%";
+        progressText.textContent = "Analyzing results…";
+    }, 1600);
+}
+
+function finishProgress() {
+    progressFill.style.width = "100%";
+    progressText.textContent = "Scan completed ✔";
+
+    setTimeout(() => {
+        progressCard.classList.add("hidden");
+        progressFill.style.width = "0%";
+    }, 1000);
+}
+
