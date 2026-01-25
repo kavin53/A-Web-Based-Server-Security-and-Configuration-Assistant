@@ -13,7 +13,7 @@
 
     <div class="card">
         <input type="text" id="target" placeholder="Target (example.com or IP)">
-        
+
         <select id="scanType">
             <option value="port">🔌 Port Scan</option>
             <option value="ssl">🔐 SSL Scan</option>
@@ -21,16 +21,15 @@
             <option value="dir">📁 Directory Scan</option>
         </select>
 
-        <button id ="runScanBtn">Run Scan</button>
+        <button id="runScanBtn">Run Scan</button>
     </div>
 
     <div class="card result">
-    <h2>Scan Results</h2>
-    <div id="resultsContainer" class="results-grid">
-        <p class="placeholder">Run a scan to see results</p>
+        <h2>Scan Results</h2>
+        <div id="resultsContainer" class="results-grid">
+            <p class="placeholder">Run a scan to see results</p>
+        </div>
     </div>
-</div>
-
 
     <div class="card score">
         <h2>Security Score</h2>
@@ -39,6 +38,5 @@
 </div>
 
 <script src="/static/app.js"></script>
-
 </body>
 </html>
