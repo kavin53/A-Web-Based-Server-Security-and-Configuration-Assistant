@@ -4,37 +4,50 @@
     <meta charset="UTF-8">
     <title>Server Security Assistant</title>
     <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
-<div class="container">
-    <h1>🛡 Server Security Assistant</h1>
-    <p class="subtitle">Web-Based Server Security & Configuration Analyzer</p>
+<div class="dashboard">
 
-    <div class="card">
-        <input type="text" id="target" placeholder="Target (example.com or IP)">
+    <!-- LEFT SIDE -->
+    <div class="left-panel">
+        <h1>🛡 Server Security Assistant</h1>
+        <p class="subtitle">Web-Based Server Security & Configuration Analyzer</p>
 
-        <select id="scanType">
-            <option value="port">🔌 Port Scan</option>
-            <option value="ssl">🔐 SSL Scan</option>
-            <option value="headers">📄 Headers Scan</option>
-            <option value="dir">📁 Directory Scan</option>
-        </select>
+        <div class="card">
+            <input type="text" id="target" placeholder="Target (example.com or IP)">
 
-        <button id="runScanBtn">Run Scan</button>
-    </div>
+            <select id="scanType">
+                <option value="port">🔌 Port Scan</option>
+                <option value="ssl">🔐 SSL Scan</option>
+                <option value="headers">📄 Headers Scan</option>
+                <option value="dir">📁 Directory Scan</option>
+            </select>
 
-    <div class="card result">
-        <h2>Scan Results</h2>
-        <div id="resultsContainer" class="results-grid">
-            <p class="placeholder">Run a scan to see results</p>
+            <button id="runScanBtn">Run Scan</button>
+        </div>
+
+        <div class="card result">
+            <h2>Scan Results</h2>
+            <div id="resultsContainer" class="results-grid">
+                <p class="placeholder">Run a scan to see results</p>
+            </div>
         </div>
     </div>
 
-    <div class="card score">
-        <h2>Security Score</h2>
-        <div id="score">—</div>
+    <!-- RIGHT SIDE -->
+    <div class="right-panel">
+        <div class="card score">
+            <h2>Security Score</h2>
+            <div id="score">—</div>
+
+            <div class="chart-wrapper">
+                <canvas id="riskChart"></canvas>
+            </div>
+        </div>
     </div>
+
 </div>
 
 <script src="/static/app.js"></script>
